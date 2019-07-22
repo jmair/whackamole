@@ -1,11 +1,33 @@
-body {
-  header {
-    background-color: lime;
-  }
+#whack {
+  position: relative;
+}
+
+.mole-wrapper {
+  position: absolute;
 }
 
 .mole {
+  position: absolute;
   width: 100px;
+  user-select: none;
+}
+
+.background {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100px;
+  height: 40px;
+  background-color: black;
+}
+
+.foreground {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background-color: white;
 }
 
 .mallet {
