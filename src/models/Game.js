@@ -1,5 +1,4 @@
 import Mole from './Mole';
-import mallet from '../images/mallet.png';
 
 const startLocations = [
   { x: 100, y:100 },
@@ -11,13 +10,26 @@ const startLocations = [
 class Game {
   constructor(target) {
     this.target = target;
+    this.timeLimit = 60;
+    this.timeString = 'Timer: ';
+
     this.state = {
-      gameStarted: true,
-      start: undefined,
+      gameStarted: false,
       time: 0,
+      timeLeft: this.timeLimit,
     };
 
     this.loop = this.loop.bind(this);
+    this.timer = this.createTimer();
+  }
+
+  createTimer() {
+    const timer = document.createElement('div');
+    timer.className = 'timer';
+    timer.innerText = `${this.timeString}${this.state.timeLeft}`;
+    document.body.appendChild(timer);
+
+    return timer;
   }
 
   init() {
@@ -29,15 +41,20 @@ class Game {
   }
 
   update(seconds) {
+    if (this.state.timeLeft < 1) this.state.gameStarted = false;
+    this.timer.innerText = `${this.timeString}${this.state.timeLeft}`;
     this.moles.forEach(mole => mole.move(seconds));
   }
 
   loop(timestamp) {
-    if (!this.state.start) { this.state.start = timestamp }
     if (timestamp - this.state.start > 1) { // ensure consistent time
       this.state.start = timestamp;
-      this.state.time = timestamp / 1000;
-      if (this.state.gameStarted) { this.update(this.state.time) }
+
+      if (this.state.gameStarted) {
+        this.state.time = parseInt(timestamp / 1000);
+        this.state.timeLeft = this.timeLimit - this.state.time;
+        this.update(this.state.time)
+      }
     }
 
     window.requestAnimationFrame(this.loop);

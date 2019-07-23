@@ -1,5 +1,23 @@
+body {
+  font-family: 'Molle', cursive;
+}
+
 #whack {
   position: relative;
+  width: 500px;
+  margin: 0 auto;
+}
+
+header {
+  h1 {
+    margin: 12px 0;
+    text-align: center;
+    font-size: 86px;
+  }
+}
+
+.timer {
+  font-size: 46px;
 }
 
 .mole-wrapper {
