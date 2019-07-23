@@ -1,5 +1,9 @@
+$brown: #cb6f38;
+$red: #d60808;
+
 body {
   font-family: 'Molle', cursive;
+  user-select: none;
 }
 
 #whack {
@@ -13,7 +17,38 @@ header {
     margin: 12px 0;
     text-align: center;
     font-size: 86px;
+    color: $red;
+    text-shadow: 2px 2px 1px #000;
   }
+}
+
+.button-wrapper {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+button {
+  font-family: 'Molle', cursive;
+  font-size: 24px;
+  background-color: black;
+  padding: 4px 8px;
+  color: white;
+  border: 2px solid black;
+  border-radius: 4px;
+  transition: background-color 500ms;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+.scoreboard {
+  font-size: 64px;
 }
 
 .timer {
@@ -28,7 +63,6 @@ header {
   position: absolute;
   top: 100px;
   width: 100px;
-  user-select: none;
 }
 
 .background {

@@ -1,32 +1,8 @@
 import image from '../images/mole.png';
 
-const createMole = (location) => {
-  const mole = document.createElement('img');
-  mole.className = 'mole';
-  mole.src = image;
-  mole.onclick = () => { console.log('hit') };
-  mole.ondragstart = () => false;
-
-  return mole;
-};
-
-const createForeground = () => {
-  const fore = document.createElement('div');
-  fore.className = 'foreground';
-
-  return fore;
-};
-
-const createBackground = () => {
-  const back = document.createElement('div');
-  back.className = 'background';
-
-  return back;
-};
-
 class Mole {
-  constructor(location, container) {
-    this.mole = createMole(location);
+  constructor(location, container, increment) {
+    this.mole = this.init(increment);
     this.limits = {
       top: 0,
       bottom: 100,
@@ -44,6 +20,7 @@ class Mole {
       paused: true,
       pauseUntil: 0,
       timeElapsed: 0,
+      dead: false,
     };
 
     const wrapper = document.createElement('div');
@@ -51,14 +28,36 @@ class Mole {
     wrapper.style.left = `${location.x}px`;
     wrapper.style.top = `${location.y}px`;
 
-    const background = createBackground();
-    const foreground = createForeground();
+    const background = this.createLayer('background');
+    const foreground = this.createLayer('foreground');
 
     wrapper.appendChild(background);
     wrapper.appendChild(this.mole);
     wrapper.appendChild(foreground);
 
     container.appendChild(wrapper);
+  }
+
+  init(increment) {
+    const el = document.createElement('img');
+    el.className = 'mole';
+    el.src = image;
+    el.onclick = () => {
+      if (!this.state.dead) {
+        increment();
+        this.state.dead = true;
+      }
+    };
+    el.ondragstart = () => false;
+
+    return el;
+  };
+
+  createLayer(className) {
+    const layer = document.createElement('div');
+    layer.className = className;
+
+    return layer;
   }
 
   setPause(position) {
@@ -98,6 +97,7 @@ class Mole {
         this.direction = 'up';
         this.getNewParams();
         this.setPause('bottom');
+        this.state.dead = false;
       }
     }
   }
